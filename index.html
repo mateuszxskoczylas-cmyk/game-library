@@ -366,7 +366,7 @@ function normalizeGames(arr){
     const fixed=GAME_META[g.id]||{};
     const old=g.statuses||{};
     const releaseDate=g.id==="g46" ? "2018-03-26" : (g.releaseDate||fixed.releaseDate||"");
-    const title=g.id==="g46" ? "Far Cry 5" : g.title;
+    const title=g.id==="g46" ? "Far Cry 5" : (g.id==="g15" ? "Call of Duty®: Modern Warfare® 4" : g.title);
     const steamAppId=g.id==="g46" ? 552520 : (g.steamAppId||fixed.steamAppId||null);
 
     let selected=null;
