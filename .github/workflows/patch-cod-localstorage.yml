@@ -1,0 +1,36 @@
+name: Patch COD localStorage migration
+
+on:
+  push:
+    paths:
+      - '.github/workflows/patch-cod-localstorage.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Force renamed COD title for existing saved data
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          old = '    const title=g.id==="g46" ? "Far Cry 5" : g.title;'
+          new = '    const title=g.id==="g46" ? "Far Cry 5" : (g.id==="g15" ? "Call of Duty®: Modern Warfare® 4" : g.title);'
+          if old in s:
+              s = s.replace(old, new, 1)
+          elif 'g.id==="g15" ? "Call of Duty®: Modern Warfare® 4"' not in s:
+              raise SystemExit('Expected title migration line not found')
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit patch
+        run: |
+          git config user.name "chatgpt-game-library"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet || git commit -m "Migrate COD title for saved libraries"
+          git push
