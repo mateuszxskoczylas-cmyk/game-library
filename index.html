@@ -1,681 +1,402 @@
 <!doctype html>
-<html lang="pl" data-theme="light">
+<html lang="pl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>shinhati · Game Library</title>
-<meta name="description" content="Prywatna biblioteka gier Steam — statusy ukończenia, 100%, do skończenia i preorder.">
-<meta name="theme-color" content="#1677ff">
-<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FUTURE // GAME RELEASE ARCHIVE</title>
+<meta name="description" content="Retro release tracker for upcoming games: 2026, 2027, 2028 and beyond.">
+<meta name="theme-color" content="#07090b">
 <style>
 :root{
-  --blue:#1677ff;
-  --blue-2:#0b5ed7;
-  --blue-soft:#eaf3ff;
-  --bg:#f4f8ff;
-  --bg-2:#ffffff;
-  --panel:rgba(255,255,255,.88);
-  --panel-solid:#ffffff;
-  --text:#111827;
-  --muted:#66758f;
-  --line:#dbe7f7;
-  --line-strong:#bfd4f2;
-  --shadow:0 12px 36px rgba(31,80,145,.10);
-  --tile-shadow:0 7px 20px rgba(42,88,150,.08);
-  --completed:#0fba6f;
-  --completed-bg:#e2f8ed;
-  --perfect:#16a86e;
-  --perfect-bg:linear-gradient(135deg,#def8ea 0%,#e8f8f0 62%,#e8f1ff 100%);
-  --finish:#d68118;
-  --finish-bg:#fff5e8;
-  --preorder:#7a50db;
-  --preorder-bg:#f4efff;
-
-  --tile-completed:linear-gradient(145deg,#effff7 0%,#dff7ea 100%);
-  --tile-perfect:linear-gradient(145deg,#e5fbef 0%,#dcf7e9 68%,#e8f1ff 100%);
-  --tile-finish:linear-gradient(145deg,#fffaf2 0%,#fff0dd 100%);
-  --tile-preorder:linear-gradient(145deg,#f7f2ff 0%,#edf2ff 100%);
-}
-html[data-theme="dark"]{
-  --bg:#07101d;
-  --bg-2:#0a1425;
-  --panel:rgba(12,24,44,.88);
-  --panel-solid:#0d192d;
-  --text:#f4f8ff;
-  --muted:#91a3bf;
-  --line:#203653;
-  --line-strong:#2e4e78;
-  --shadow:0 18px 50px rgba(0,0,0,.34);
-  --tile-shadow:0 8px 24px rgba(0,0,0,.22);
-  --blue-soft:#10284a;
-  --completed:#4be09a;
-  --completed-bg:#0c3225;
-  --perfect:#58dfa5;
-  --perfect-bg:linear-gradient(135deg,#0c3427 0%,#10342d 65%,#122844 100%);
-  --finish:#ffb761;
-  --finish-bg:#2c2114;
-  --preorder:#c4a0ff;
-  --preorder-bg:#261d3a;
-
-  --tile-completed:linear-gradient(145deg,#0b2d20 0%,#0f3828 100%);
-  --tile-perfect:linear-gradient(145deg,#0b3224 0%,#0f3a2d 68%,#112943 100%);
-  --tile-finish:linear-gradient(145deg,#2a1d10 0%,#312315 100%);
-  --tile-preorder:linear-gradient(145deg,#251b35 0%,#18243d 100%);
+  --bg:#07090b;
+  --panel:#0b0f12;
+  --panel2:#0f1418;
+  --line:#29323a;
+  --line2:#414d56;
+  --text:#e7ecef;
+  --muted:#7e8a91;
+  --orange:#ff6b2c;
+  --orange-dim:#7f351b;
+  --green:#72f5a5;
+  --green-dim:#2b6942;
+  --cyan:#77d9e8;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
   margin:0;
   min-height:100vh;
-  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  color:var(--text);
   background:
-    radial-gradient(circle at 8% -6%,rgba(22,119,255,.18),transparent 28%),
-    radial-gradient(circle at 100% 0%,rgba(72,149,255,.10),transparent 24%),
+    linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.008) 1px,transparent 1px),
+    radial-gradient(circle at 50% -20%,rgba(255,107,44,.09),transparent 38%),
     var(--bg);
-  transition:background .22s,color .22s;
-}
-button,input{font:inherit}
-button{color:inherit}
-.shell{max-width:1460px;margin:0 auto;padding:24px 24px 68px}
-.topbar{
-  display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:18px
-}
-.profile{
-  display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;
-  min-width:0
-}
-.avatar{
-  width:45px;height:45px;border-radius:50%;display:grid;place-items:center;
-  background:linear-gradient(145deg,#1684ff,#0856c9);color:#fff;font-weight:800;
-  box-shadow:0 8px 24px rgba(22,119,255,.24);overflow:hidden;flex:0 0 45px
-}
-.avatar img{width:100%;height:100%;object-fit:cover;display:none}
-.profile-name{font-weight:800;font-size:17px}
-.profile-sub{font-size:11px;color:var(--muted);margin-top:3px}
-.top-actions{display:flex;gap:8px;align-items:center}
-.btn{
-  border:1px solid var(--line);background:var(--panel);color:var(--text);
-  padding:9px 12px;border-radius:12px;cursor:pointer;transition:.16s;
-  box-shadow:0 2px 8px rgba(0,0,0,.02)
-}
-.btn:hover{transform:translateY(-1px);border-color:var(--line-strong)}
-.btn.primary{background:linear-gradient(145deg,var(--blue),var(--blue-2));color:#fff;border-color:transparent}
-.theme-btn{display:inline-flex;align-items:center;gap:8px}
-.theme-icon{font-size:15px}
-.hero{
-  border:1px solid var(--line);border-radius:22px;background:var(--panel);
-  backdrop-filter:blur(16px);box-shadow:var(--shadow);padding:20px
-}
-.hero-top{display:flex;justify-content:space-between;gap:20px;align-items:center}
-.eyebrow{
-  color:var(--blue);font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:850
-}
-.hero h1{font-size:26px;margin:5px 0 4px;letter-spacing:-.025em}
-.hero-note{font-size:12px;color:var(--muted)}
-.total{text-align:right}
-.total strong{display:block;font-size:38px;line-height:1;font-weight:850;letter-spacing:-.045em}
-.total span{display:block;color:var(--muted);font-size:10px;margin-top:4px}
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:16px}
-.stat{
-  padding:11px 12px;border:1px solid var(--line);border-radius:14px;background:var(--bg-2)
-}
-.stat-n{font-size:21px;font-weight:820}
-.stat-l{font-size:10px;color:var(--muted);margin-top:2px}
-.toolbar{display:flex;justify-content:space-between;align-items:center;margin:15px 2px 10px}
-.toolnote{font-size:11px;color:var(--muted)}
-.grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:9px
-}
-.card{
-  min-width:0;position:relative;aspect-ratio:1 / 1;border:1px solid var(--line);border-radius:17px;
-  background:
-    radial-gradient(circle at 100% 0%,rgba(22,119,255,.06),transparent 38%),
-    var(--panel-solid);
-  box-shadow:var(--tile-shadow);cursor:pointer;overflow:hidden;
-  transition:transform .16s,border-color .16s,box-shadow .16s
-}
-.card:hover{
-  transform:translateY(-3px);filter:brightness(1.015);
-  box-shadow:0 14px 30px rgba(28,78,145,.14)
-}
-.card[data-status="completed"]{
-  background:var(--tile-completed);border-color:rgba(15,186,111,.48);
-  box-shadow:0 8px 22px rgba(24,165,102,.08)
-}
-.card[data-status="perfect"]{
-  background:var(--tile-perfect);border-color:rgba(22,168,110,.46);
-  box-shadow:0 8px 24px rgba(22,119,255,.10)
-}
-.card[data-status="finish"]{
-  background:var(--tile-finish);border-color:rgba(214,129,24,.36);
-  box-shadow:0 8px 22px rgba(214,129,24,.08)
-}
-.card[data-status="preorder"]{
-  background:var(--tile-preorder);border-color:rgba(122,80,219,.34);
-  box-shadow:0 8px 22px rgba(122,80,219,.08)
-}
-.card-body{
-  height:100%;
-  padding:15px 14px 13px;
-  display:flex;
-  flex-direction:column
-}
-.game-title{
+  background-size:4px 4px,4px 4px,auto,auto;
   color:var(--text);
-  font-size:15px;
-  font-weight:880;
-  line-height:1.20;
-  letter-spacing:-.012em;
-  min-height:58px;
-  display:-webkit-box;
-  -webkit-line-clamp:3;
-  -webkit-box-orient:vertical;
+  font-family:"Courier New",Courier,monospace;
+  font-size:12px;
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:999;
+  opacity:.045;
+  background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,#fff 4px);
+}
+body:after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:998;
+  box-shadow:inset 0 0 120px rgba(0,0,0,.58);
+}
+a{color:inherit}
+.shell{width:min(1700px,100%);margin:0 auto;padding:15px 16px 56px}
+.bootline{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  color:#59656c;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  margin-bottom:7px;
+}
+.header{
+  position:relative;
+  border:1px solid var(--line);
+  border-top:2px solid var(--orange);
+  background:linear-gradient(180deg,#0d1114,#080b0d);
+  padding:14px 16px 13px;
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:20px;
   overflow:hidden;
-  text-wrap:balance;
 }
-.meta{
-  display:flex;gap:5px;align-items:center;flex-wrap:wrap;
-  color:var(--muted);font-size:9px;font-weight:650;
-  margin-top:8px;line-height:1.25
+.header:after{
+  content:"SYS::ONLINE";
+  position:absolute;
+  right:13px;
+  bottom:8px;
+  color:rgba(114,245,165,.10);
+  font-size:38px;
+  font-weight:bold;
+  letter-spacing:-.05em;
+  pointer-events:none;
 }
-.countdown{color:var(--blue);font-weight:800}
-.status-wrap{margin-top:auto;padding-top:9px;min-height:31px}
+.brand{font-size:20px;font-weight:bold;letter-spacing:.04em;line-height:1}
+.brand .mark{color:var(--orange)}
+.tagline{margin-top:7px;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.08em}
+.sysinfo{text-align:right;color:#6e7a80;font-size:9px;line-height:1.55;text-transform:uppercase;z-index:2}
+.sysinfo b{color:var(--green);font-weight:normal}
+.year-nav{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin:10px 0 20px;
+  padding:8px;
+  border:1px solid #1c2328;
+  background:#080b0d;
+}
+.year-nav a{
+  text-decoration:none;
+  color:#8b969c;
+  border:1px solid #283138;
+  padding:6px 10px;
+  font-size:9px;
+  letter-spacing:.08em;
+  transition:.12s;
+}
+.year-nav a:hover{color:#fff;border-color:var(--orange);background:#120b08}
+.section{margin:0 0 28px;scroll-margin-top:10px}
+.section-head{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:10px;
+  margin-bottom:9px;
+}
+.year-code{
+  color:var(--orange);
+  border:1px solid var(--orange-dim);
+  background:#100a08;
+  padding:6px 9px;
+  font-size:13px;
+  font-weight:bold;
+  letter-spacing:.06em;
+}
+.section-line{height:1px;background:linear-gradient(90deg,var(--orange-dim),#1c2226)}
+.section-meta{color:#58646a;font-size:8px;text-transform:uppercase;letter-spacing:.08em}
+.rail{
+  display:flex;
+  gap:9px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  padding:1px 0 10px;
+  scroll-snap-type:x proximity;
+  scrollbar-width:thin;
+  scrollbar-color:var(--orange-dim) #0b0e10;
+}
+.rail::-webkit-scrollbar{height:7px}
+.rail::-webkit-scrollbar-track{background:#0b0e10;border:1px solid #1e2529}
+.rail::-webkit-scrollbar-thumb{background:var(--orange-dim)}
+.card{
+  flex:0 0 168px;
+  scroll-snap-align:start;
+  border:1px solid var(--line);
+  background:var(--panel);
+  padding:5px;
+  position:relative;
+  clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%);
+  transition:transform .13s,border-color .13s,background .13s;
+}
+.card:before{
+  content:"";
+  position:absolute;
+  top:0;
+  right:0;
+  width:10px;
+  height:10px;
+  border-left:1px solid var(--line2);
+  transform:rotate(45deg) translate(3px,-2px);
+}
+.card:hover{transform:translateY(-3px);border-color:#6b4938;background:#0e1215}
+.poster-wrap{
+  aspect-ratio:2/3;
+  width:100%;
+  overflow:hidden;
+  border:1px solid #222a2f;
+  background:#030405;
+  position:relative;
+}
+.poster{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  filter:saturate(.88) contrast(1.05);
+}
+.poster.logo-mode{object-fit:contain;padding:18px 10px;background:#000}
+.text-cover{
+  width:100%;height:100%;display:grid;place-items:center;text-align:center;
+  padding:15px 10px;background:
+  linear-gradient(rgba(255,107,44,.055) 1px,transparent 1px),
+  #020303;
+  background-size:100% 13px;
+}
+.text-cover .tc-big{font-size:15px;font-weight:bold;color:#f0f3f4;line-height:1.08}
+.text-cover .tc-sub{margin-top:7px;font-size:9px;color:var(--orange);letter-spacing:.08em}
+.text-cover .tc-mini{margin-top:10px;font-size:7px;color:#5f696e;letter-spacing:.08em}
+.poster-code{
+  position:absolute;
+  top:5px;left:5px;
+  background:rgba(0,0,0,.76);
+  border-left:2px solid var(--orange);
+  padding:3px 5px;
+  color:#b8c0c4;
+  font-size:7px;
+  letter-spacing:.06em;
+}
+.info{padding:8px 3px 4px;min-height:104px;display:flex;flex-direction:column}
+.studio{color:var(--green);font-size:8px;text-transform:uppercase;letter-spacing:.075em;margin-bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.title{font-size:11px;line-height:1.2;font-weight:bold;min-height:39px;color:#f0f2f3}
+.release{margin-top:7px;color:#aab3b7;font-size:9px}
+.release:before{content:"> ";color:var(--orange)}
+.status-row{margin-top:auto;padding-top:8px;display:flex;justify-content:space-between;align-items:center;gap:5px}
 .status{
-  display:inline-flex;align-items:center;gap:4px;
-  padding:6px 8px;border-radius:9px;border:1.5px solid;
-  font-size:8.5px;font-weight:900;letter-spacing:.045em;
-  text-transform:uppercase;max-width:100%
+  font-size:7px;
+  color:#9da7ab;
+  border:1px solid #303940;
+  padding:3px 5px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
 }
-.status.completed{color:var(--completed);border-color:var(--completed);background:var(--completed-bg)}
-.status.perfect{color:var(--perfect);border-color:var(--perfect);background:var(--perfect-bg);box-shadow:inset 0 0 0 1px rgba(22,119,255,.08)}
-.status.finish{color:var(--finish);border-color:var(--finish);background:var(--finish-bg)}
-.status.preorder{color:var(--preorder);border-color:var(--preorder);background:var(--preorder-bg)}
-.badge100{width:14px;height:14px;object-fit:contain}
-.modal-backdrop{
-  position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:20px;
-  background:rgba(4,12,25,.52);backdrop-filter:blur(8px);z-index:50
-}
-.modal-backdrop.open{display:flex}
-.modal{
-  width:min(590px,100%);border:1px solid var(--line-strong);border-radius:22px;
-  background:var(--panel-solid);box-shadow:0 36px 100px rgba(0,0,0,.30);padding:22px
-}
-.modal-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:18px}
-.modal h2{font-size:22px;margin:5px 0 0;line-height:1.18}
-.close{
-  width:35px;height:35px;flex:0 0 35px;border-radius:11px;border:1px solid var(--line);
-  background:var(--bg);cursor:pointer
-}
-.field{margin:13px 0}
-.field label{display:block;color:var(--muted);font-size:10px;margin-bottom:6px}
-.field input{
-  width:100%;border:1px solid var(--line);background:var(--bg);color:var(--text);
-  border-radius:11px;padding:10px 11px;outline:none
-}
-.field input:focus{border-color:#69a3ed;box-shadow:0 0 0 3px rgba(22,119,255,.10)}
-.status-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.status-option{
-  border:1.5px solid var(--line);background:var(--bg);border-radius:12px;padding:11px 12px;
-  cursor:pointer;text-align:left;font-size:11px;font-weight:800;transition:.15s
-}
-.status-option:hover{border-color:#7fb0ee}
-.status-option.on[data-status="completed"]{color:var(--completed);border-color:var(--completed);background:var(--completed-bg)}
-.status-option.on[data-status="perfect"]{color:var(--perfect);border-color:var(--perfect);background:var(--perfect-bg);box-shadow:inset 0 0 0 1px rgba(22,119,255,.08)}
-.status-option.on[data-status="finish"]{color:var(--finish);border-color:var(--finish);background:var(--finish-bg)}
-.status-option.on[data-status="preorder"]{color:var(--preorder);border-color:var(--preorder);background:var(--preorder-bg)}
-.detail-info{font-size:10px;color:var(--muted);margin-top:6px}
-.modal-foot{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-top:21px}
-.foot-right{display:flex;gap:8px}
-.link-btn{text-decoration:none}
-.danger{color:#e55a6e}
-.toast{
-  position:fixed;right:20px;bottom:20px;padding:10px 13px;border-radius:11px;
-  background:var(--panel-solid);border:1px solid var(--line-strong);box-shadow:var(--shadow);
-  font-size:11px;opacity:0;transform:translateY(6px);pointer-events:none;transition:.18s;z-index:80
-}
-.toast.show{opacity:1;transform:none}
-.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:45px}
-@media(max-width:920px){
-  .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.status.confirmed{color:var(--green);border-color:var(--green-dim)}
+.status.unannounced{color:#ff9b73;border-color:#71351f}
+.node{font-size:7px;color:#4c575d}
+.footer{
+  margin-top:30px;
+  border-top:1px solid #232b30;
+  padding-top:10px;
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  color:#4e5a60;
+  font-size:8px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
 }
 @media(max-width:650px){
-  .shell{padding:15px 12px 45px}
-  .topbar{align-items:flex-start;flex-direction:column}
-  .top-actions{width:100%}.top-actions .btn{flex:1}
-  .hero{padding:16px}.hero-top{align-items:flex-start}
-  .hero h1{font-size:22px}.stats{grid-template-columns:repeat(2,1fr)}
-  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-  .card-body{padding:10px}
-  .game-title{font-size:12.5px;min-height:46px}
-  .status{font-size:7.5px;padding:5px 6px}
-  .status-options{grid-template-columns:1fr}
+  .shell{padding:10px 8px 38px}
+  .header{grid-template-columns:1fr}
+  .sysinfo{text-align:left}
+  .header:after{font-size:25px}
+  .brand{font-size:17px}
+  .card{flex-basis:146px}
+  .title{font-size:10px}
+  .bootline{display:none}
+  .section-head{grid-template-columns:auto 1fr}.section-meta{display:none}
 }
-@media(max-width:390px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="shell">
-  <header class="topbar">
-    <a class="profile" href="https://steamcommunity.com/id/shinhati4/" target="_blank" rel="noopener">
-      <div class="avatar" id="avatarWrap"><img id="profileAvatar" alt=""><span id="avatarFallback">S</span></div>
-      <div>
-        <div class="profile-name" id="profileName">shinhati</div>
-        <div class="profile-sub">Steam · prywatna biblioteka</div>
-      </div>
-    </a>
-    <div class="top-actions">
-      <button class="btn theme-btn" id="themeBtn"><span class="theme-icon" id="themeIcon">☾</span><span id="themeLabel">Tryb ciemny</span></button>
-      <button class="btn primary" id="addBtn">+ Dodaj grę</button>
+  <div class="bootline"><span>boot://future_release_archive v1.0</span><span>local node // github_pages</span></div>
+
+  <header class="header">
+    <div>
+      <div class="brand">FUTURE<span class="mark">//</span>GAME_INDEX</div>
+      <div class="tagline">upcoming projects database · release sectors 2026—beyond</div>
+    </div>
+    <div class="sysinfo">
+      BUILD: <b>001</b><br>
+      MODE: <b>RELEASE_TRACKER</b><br>
+      SECTORS: <b>04 ONLINE</b>
     </div>
   </header>
 
-  <section class="hero">
-    <div class="hero-top">
-      <div>
-        <div class="eyebrow">Game Library</div>
-        <h1>Twoja lista gier</h1>
-        <div class="hero-note">Jedna gra może mieć tylko jeden status. Gry przed premierą automatycznie dostają Preorder.</div>
-      </div>
-      <div class="total"><strong id="totalCount">98</strong><span>gier</span></div>
-    </div>
-    <div class="stats" id="stats"></div>
-  </section>
+  <nav class="year-nav" aria-label="Release years">
+    <a href="#y2026">[ 2026 ]</a>
+    <a href="#y2027">[ 2027 ]</a>
+    <a href="#y2028">[ 2028 ]</a>
+    <a href="#beyond">[ BEYOND ]</a>
+  </nav>
 
-  <div class="toolbar">
-    <div class="toolnote">Alfabetycznie · kolor całego kafelka = status · jasny / ciemny PS5</div>
-  </div>
+  <main id="app"></main>
 
-  <main class="grid" id="library"></main>
+  <footer class="footer">
+    <span>// future release archive</span>
+    <span>covers: official / store / media · unannounced = placeholder</span>
+  </footer>
 </div>
-
-<div class="modal-backdrop" id="detailBackdrop">
-  <section class="modal">
-    <div class="modal-head">
-      <div><div class="eyebrow">Szczegóły gry</div><h2 id="detailHeading">Gra</h2></div>
-      <button class="close" data-close="detailBackdrop">✕</button>
-    </div>
-
-    <div class="field">
-      <label>Tytuł</label>
-      <input id="detailTitle" type="text" autocomplete="off">
-    </div>
-
-    <div class="field">
-      <label>Data premiery Steam / PC</label>
-      <input id="detailDate" type="date">
-      <div class="detail-info" id="detailCountdown"></div>
-    </div>
-
-    <div class="field">
-      <label>Status — wybierz maksymalnie jeden</label>
-      <div class="status-options" id="detailStatuses"></div>
-    </div>
-
-    <div class="modal-foot">
-      <button class="btn danger" id="deleteBtn">Usuń</button>
-      <div class="foot-right">
-        <a class="btn link-btn" id="steamLink" target="_blank" rel="noopener">Steam</a>
-        <button class="btn primary" id="saveDetailBtn">Zapisz</button>
-      </div>
-    </div>
-  </section>
-</div>
-
-<div class="modal-backdrop" id="addBackdrop">
-  <section class="modal">
-    <div class="modal-head">
-      <div><div class="eyebrow">Nowa pozycja</div><h2>Dodaj grę</h2></div>
-      <button class="close" data-close="addBackdrop">✕</button>
-    </div>
-    <div class="field"><label>Tytuł</label><input id="addTitle" type="text" autocomplete="off"></div>
-    <div class="field"><label>Data premiery (opcjonalnie)</label><input id="addDate" type="date"></div>
-    <div class="field"><label>Steam App ID (opcjonalnie)</label><input id="addAppId" type="number" min="1"></div>
-    <div class="modal-foot"><span></span><button class="btn primary" id="confirmAddBtn">Dodaj</button></div>
-  </section>
-</div>
-
-<div class="toast" id="toast">Zapisano</div>
 
 <script>
-const INITIAL_GAMES = [{"id":"g1","title":"007 First Light","releaseDate":"2026-05-26","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":3768760},{"id":"g2","title":"ARC Raiders","releaseDate":"2025-10-30","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1808500},{"id":"g3","title":"Assassin's Creed Black Flag Resynced","releaseDate":"2026-07-09","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":3751950},{"id":"g4","title":"Assassin's Creed Mirage","releaseDate":"2024-10-17","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":3035570},{"id":"g5","title":"Assassin's Creed Odyssey","releaseDate":"2018-10-05","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":812140},{"id":"g6","title":"Assassin's Creed Origins","releaseDate":"2017-10-26","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":582160},{"id":"g7","title":"Assassin's Creed Shadows","releaseDate":"2025-03-19","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":3159330},{"id":"g8","title":"Assassin's Creed Syndicate","releaseDate":"2015-11-18","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":368500},{"id":"g9","title":"Assassin's Creed Unity","releaseDate":"2014-11-11","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":289650},{"id":"g10","title":"Assassin's Creed Valhalla","releaseDate":"2022-12-06","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":2208920},{"id":"g11","title":"Baldur's Gate 3","releaseDate":"2023-08-03","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1086940},{"id":"g12","title":"Batman™: Arkham Knight","releaseDate":"2015-06-23","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":208650},{"id":"g13","title":"Battlefield™ 6","releaseDate":"2025-10-10","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":2807960},{"id":"g14","title":"Black Myth: Wukong","releaseDate":"2024-08-19","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":2358720},{"id":"g15","title":"Call of Duty®: Modern Warfare® 4","releaseDate":"2022-10-27","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1938090},{"id":"g16","title":"Call of Duty: Advanced Warfare","releaseDate":"2014-11-03","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":209650},{"id":"g17","title":"Call of Duty: Black Ops","releaseDate":"2010-11-09","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":42700},{"id":"g18","title":"Call of Duty: Black Ops Cold War","releaseDate":"2023-03-08","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1985810},{"id":"g19","title":"Call of Duty: Black Ops II","releaseDate":"2012-11-12","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":202970},{"id":"g20","title":"Call of Duty: Black Ops III","releaseDate":"2015-11-06","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":311210},{"id":"g21","title":"Call of Duty: Ghosts","releaseDate":"2013-11-05","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":209160},{"id":"g22","title":"Call of Duty: Infinite Warfare","releaseDate":"2016-11-04","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":292730},{"id":"g23","title":"Call of Duty: Modern Warfare 2 (2009)","releaseDate":"2009-11-12","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":10180},{"id":"g24","title":"Call of Duty: Modern Warfare Remastered","releaseDate":"2017-07-27","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":393080},{"id":"g25","title":"Call of Duty: WWII","releaseDate":"2017-11-02","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":476600},{"id":"g26","title":"Call of Duty®: Black Ops 6","releaseDate":"2024-11-01","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":4384550},{"id":"g27","title":"Call of Duty®: Modern Warfare®","releaseDate":"2023-03-08","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":2000950},{"id":"g28","title":"Call of Duty®: Modern Warfare® 3 (2011)","releaseDate":"2011-11-08","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":42690},{"id":"g29","title":"Call of Duty®: Modern Warfare® II","releaseDate":"2022-10-22","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":3595230},{"id":"g30","title":"Call of Duty®: Modern Warfare® III","releaseDate":"2023-11-10","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":3595270},{"id":"g31","title":"Call of Duty®: Vanguard","releaseDate":"2023-03-08","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1985820},{"id":"g32","title":"Clair Obscur: Expedition 33","releaseDate":"2025-04-24","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1903340},{"id":"g33","title":"Crimson Desert Enhanced","releaseDate":"2026-03-19","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":3321460},{"id":"g34","title":"Cult of the Lamb","releaseDate":"2022-08-11","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1313140},{"id":"g35","title":"Cyberpunk 2077","releaseDate":"2020-12-09","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1091500},{"id":"g36","title":"Dead by Daylight","releaseDate":"2016-06-14","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":381210},{"id":"g37","title":"Dead Island 2","releaseDate":"2024-04-22","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":934700},{"id":"g38","title":"Dead Space","releaseDate":"2023-01-27","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1693980},{"id":"g39","title":"DEATH STRANDING 2: ON THE BEACH","releaseDate":"2026-03-19","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":3280350},{"id":"g40","title":"DEATH STRANDING DIRECTOR'S CUT","releaseDate":"2022-03-30","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1850570},{"id":"g41","title":"Detroit: Become Human","releaseDate":"2020-06-18","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1222140},{"id":"g42","title":"Dispatch","releaseDate":"2025-10-22","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":2592160},{"id":"g43","title":"Dying Light: The Beast","releaseDate":"2025-09-18","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":3008130},{"id":"g44","title":"Dziedzictwo Hogwartu","releaseDate":"2023-02-10","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":990080},{"id":"g45","title":"ELDEN RING","releaseDate":"2022-02-24","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1245620},{"id":"g46","title":"Far Cry 5","releaseDate":"2018-03-26","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":552520},{"id":"g47","title":"Far Cry 6","releaseDate":"2023-05-11","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":2369390},{"id":"g48","title":"Far Cry New Dawn","releaseDate":"2019-02-15","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":939960},{"id":"g49","title":"FINAL FANTASY VII REBIRTH","releaseDate":"2025-01-23","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":2909400},{"id":"g50","title":"FINAL FANTASY VII REMAKE INTERGRADE","releaseDate":"2022-06-17","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1462040},{"id":"g51","title":"FINAL FANTASY VII REVELATION","releaseDate":"2027-04-08","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":4354570},{"id":"g52","title":"Forza Horizon 5","releaseDate":"2021-11-08","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1551360},{"id":"g53","title":"Forza Horizon 6","releaseDate":"2026-05-18","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":2483190},{"id":"g54","title":"Ghost of Tsushima DIRECTOR'S CUT","releaseDate":"2024-05-16","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":2215430},{"id":"g55","title":"God of War","releaseDate":"2022-01-14","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1593500},{"id":"g56","title":"God of War Ragnarök","releaseDate":"2024-09-19","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":2322010},{"id":"g57","title":"Grand Theft Auto V Enhanced","releaseDate":"2025-03-04","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":3240220},{"id":"g58","title":"Hades II","releaseDate":"2025-09-25","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1145350},{"id":"g59","title":"Indiana Jones i Wielki Krąg","releaseDate":"2024-12-08","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":2677660},{"id":"g60","title":"Kingdom Come: Deliverance II","releaseDate":"2025-02-04","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1771300},{"id":"g61","title":"LEGO® Batman™: Dziedzictwo Mrocznego Rycerza","releaseDate":"2026-05-22","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":2215200},{"id":"g62","title":"LEGO® Gwiezdne Wojny™: Saga Skywalkerów","releaseDate":"2022-04-05","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":920210},{"id":"g63","title":"Lies of P","releaseDate":"2023-09-18","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1627720},{"id":"g64","title":"Mafia: Dawne Strony","releaseDate":"2025-08-07","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1941540},{"id":"g65","title":"Marvel Rivals","releaseDate":"2024-12-06","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":2767030},{"id":"g66","title":"Marvel's Spider-Man 2","releaseDate":"2025-01-30","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":2651280},{"id":"g67","title":"Marvel's Spider-Man: Miles Morales","releaseDate":"2022-11-18","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1817190},{"id":"g68","title":"Marvel’s Spider-Man Remastered","releaseDate":"2022-08-12","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1817070},{"id":"g69","title":"METAL GEAR SOLID Δ: SNAKE EATER","releaseDate":"2025-08-28","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":2417610},{"id":"g70","title":"Mortal Kombat 1","releaseDate":"2023-09-19","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1971870},{"id":"g71","title":"PRAGMATA","releaseDate":"2026-04-16","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":3357650},{"id":"g72","title":"Ratchet & Clank: Rift Apart","releaseDate":"2023-07-26","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1895880},{"id":"g73","title":"Red Dead Redemption 2","releaseDate":"2019-12-05","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1174180},{"id":"g74","title":"Resident Evil 2","releaseDate":"2019-01-24","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":883710},{"id":"g75","title":"Resident Evil 3","releaseDate":"2020-04-02","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":952060},{"id":"g76","title":"Resident Evil 4","releaseDate":"2023-03-23","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":2050650},{"id":"g77","title":"Resident Evil 5","releaseDate":"2009-09-15","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":21690},{"id":"g78","title":"Resident Evil 7 Biohazard","releaseDate":"2017-01-23","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":418370},{"id":"g79","title":"Resident Evil Requiem","releaseDate":"2026-02-26","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":3764200},{"id":"g80","title":"Resident Evil Village","releaseDate":"2021-05-06","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1196590},{"id":"g81","title":"Resonance: A Plague Tale Legacy","releaseDate":"2026-08-27","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":2713000},{"id":"g82","title":"Shadow of the Tomb Raider","releaseDate":"2018-09-14","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":750920},{"id":"g83","title":"SILENT HILL 2","releaseDate":"2024-10-07","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":2124490},{"id":"g84","title":"SILENT HILL f","releaseDate":"2025-09-24","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":2947440},{"id":"g85","title":"SILENT HILL: Townfall","releaseDate":"2026-09-23","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1636440},{"id":"g86","title":"Split Fiction","releaseDate":"2025-03-06","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":2001120},{"id":"g87","title":"STAR WARS Jedi: Ocalały™","releaseDate":"2023-04-28","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1774580},{"id":"g88","title":"STAR WARS Jedi: Upadły zakon™","releaseDate":"2019-11-15","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1172380},{"id":"g89","title":"Stellar Blade™","releaseDate":"2025-06-11","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":3489700},{"id":"g90","title":"The Blood of Dawnwalker","releaseDate":"2026-09-02","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":3751260},{"id":"g91","title":"The Last of Us™ Part I","releaseDate":"2023-03-28","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1888930},{"id":"g92","title":"The Last of Us™ Part II Remastered","releaseDate":"2025-04-03","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":2531310},{"id":"g93","title":"The Quarry","releaseDate":"2022-06-10","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1577120},{"id":"g94","title":"Tomb Raider: Legacy of Atlantis","releaseDate":"2027-02-12","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":3558670},{"id":"g95","title":"UNCHARTED™: Kolekcja Dziedzictwo złodziei","releaseDate":"2022-10-19","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":1659420},{"id":"g96","title":"Until Dawn™","releaseDate":"2024-10-04","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":2172010},{"id":"g97","title":"Watch_Dogs 2","releaseDate":"2016-11-28","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":447040},{"id":"g98","title":"Wiedźmin 3: Dziki Gon - Edycja Kompletna","releaseDate":"2015-05-18","statuses":{"completed":true,"perfect":false,"finish":false,"preorder":false},"steamAppId":292030}];
-const GAME_META = {"g1":{"releaseDate":"2026-05-26","steamAppId":3768760},"g2":{"releaseDate":"2025-10-30","steamAppId":1808500},"g3":{"releaseDate":"2026-07-09","steamAppId":3751950},"g4":{"releaseDate":"2024-10-17","steamAppId":3035570},"g5":{"releaseDate":"2018-10-05","steamAppId":812140},"g6":{"releaseDate":"2017-10-26","steamAppId":582160},"g7":{"releaseDate":"2025-03-19","steamAppId":3159330},"g8":{"releaseDate":"2015-11-18","steamAppId":368500},"g9":{"releaseDate":"2014-11-11","steamAppId":289650},"g10":{"releaseDate":"2022-12-06","steamAppId":2208920},"g11":{"releaseDate":"2023-08-03","steamAppId":1086940},"g12":{"releaseDate":"2015-06-23","steamAppId":208650},"g13":{"releaseDate":"2025-10-10","steamAppId":2807960},"g14":{"releaseDate":"2024-08-19","steamAppId":2358720},"g15":{"releaseDate":"2022-10-27","steamAppId":1938090},"g16":{"releaseDate":"2014-11-03","steamAppId":209650},"g17":{"releaseDate":"2010-11-09","steamAppId":42700},"g18":{"releaseDate":"2023-03-08","steamAppId":1985810},"g19":{"releaseDate":"2012-11-12","steamAppId":202970},"g20":{"releaseDate":"2015-11-06","steamAppId":311210},"g21":{"releaseDate":"2013-11-05","steamAppId":209160},"g22":{"releaseDate":"2016-11-04","steamAppId":292730},"g23":{"releaseDate":"2009-11-12","steamAppId":10180},"g24":{"releaseDate":"2017-07-27","steamAppId":393080},"g25":{"releaseDate":"2017-11-02","steamAppId":476600},"g26":{"releaseDate":"2024-11-01","steamAppId":4384550},"g27":{"releaseDate":"2023-03-08","steamAppId":2000950},"g28":{"releaseDate":"2011-11-08","steamAppId":42690},"g29":{"releaseDate":"2022-10-22","steamAppId":3595230},"g30":{"releaseDate":"2023-11-10","steamAppId":3595270},"g31":{"releaseDate":"2023-03-08","steamAppId":1985820},"g32":{"releaseDate":"2025-04-24","steamAppId":1903340},"g33":{"releaseDate":"2026-03-19","steamAppId":3321460},"g34":{"releaseDate":"2022-08-11","steamAppId":1313140},"g35":{"releaseDate":"2020-12-09","steamAppId":1091500},"g36":{"releaseDate":"2016-06-14","steamAppId":381210},"g37":{"releaseDate":"2024-04-22","steamAppId":934700},"g38":{"releaseDate":"2023-01-27","steamAppId":1693980},"g39":{"releaseDate":"2026-03-19","steamAppId":3280350},"g40":{"releaseDate":"2022-03-30","steamAppId":1850570},"g41":{"releaseDate":"2020-06-18","steamAppId":1222140},"g42":{"releaseDate":"2025-10-22","steamAppId":2592160},"g43":{"releaseDate":"2025-09-18","steamAppId":3008130},"g44":{"releaseDate":"2023-02-10","steamAppId":990080},"g45":{"releaseDate":"2022-02-24","steamAppId":1245620},"g46":{"releaseDate":"2018-03-26","steamAppId":552520},"g47":{"releaseDate":"2023-05-11","steamAppId":2369390},"g48":{"releaseDate":"2019-02-15","steamAppId":939960},"g49":{"releaseDate":"2025-01-23","steamAppId":2909400},"g50":{"releaseDate":"2022-06-17","steamAppId":1462040},"g51":{"releaseDate":"2027-04-08","steamAppId":4354570},"g52":{"releaseDate":"2021-11-08","steamAppId":1551360},"g53":{"releaseDate":"2026-05-18","steamAppId":2483190},"g54":{"releaseDate":"2024-05-16","steamAppId":2215430},"g55":{"releaseDate":"2022-01-14","steamAppId":1593500},"g56":{"releaseDate":"2024-09-19","steamAppId":2322010},"g57":{"releaseDate":"2025-03-04","steamAppId":3240220},"g58":{"releaseDate":"2025-09-25","steamAppId":1145350},"g59":{"releaseDate":"2024-12-08","steamAppId":2677660},"g60":{"releaseDate":"2025-02-04","steamAppId":1771300},"g61":{"releaseDate":"2026-05-22","steamAppId":2215200},"g62":{"releaseDate":"2022-04-05","steamAppId":920210},"g63":{"releaseDate":"2023-09-18","steamAppId":1627720},"g64":{"releaseDate":"2025-08-07","steamAppId":1941540},"g65":{"releaseDate":"2024-12-06","steamAppId":2767030},"g66":{"releaseDate":"2025-01-30","steamAppId":2651280},"g67":{"releaseDate":"2022-11-18","steamAppId":1817190},"g68":{"releaseDate":"2022-08-12","steamAppId":1817070},"g69":{"releaseDate":"2025-08-28","steamAppId":2417610},"g70":{"releaseDate":"2023-09-19","steamAppId":1971870},"g71":{"releaseDate":"2026-04-16","steamAppId":3357650},"g72":{"releaseDate":"2023-07-26","steamAppId":1895880},"g73":{"releaseDate":"2019-12-05","steamAppId":1174180},"g74":{"releaseDate":"2019-01-24","steamAppId":883710},"g75":{"releaseDate":"2020-04-02","steamAppId":952060},"g76":{"releaseDate":"2023-03-23","steamAppId":2050650},"g77":{"releaseDate":"2009-09-15","steamAppId":21690},"g78":{"releaseDate":"2017-01-23","steamAppId":418370},"g79":{"releaseDate":"2026-02-26","steamAppId":3764200},"g80":{"releaseDate":"2021-05-06","steamAppId":1196590},"g81":{"releaseDate":"2026-08-27","steamAppId":2713000},"g82":{"releaseDate":"2018-09-14","steamAppId":750920},"g83":{"releaseDate":"2024-10-07","steamAppId":2124490},"g84":{"releaseDate":"2025-09-24","steamAppId":2947440},"g85":{"releaseDate":"2026-09-23","steamAppId":1636440},"g86":{"releaseDate":"2025-03-06","steamAppId":2001120},"g87":{"releaseDate":"2023-04-28","steamAppId":1774580},"g88":{"releaseDate":"2019-11-15","steamAppId":1172380},"g89":{"releaseDate":"2025-06-11","steamAppId":3489700},"g90":{"releaseDate":"2026-09-02","steamAppId":3751260},"g91":{"releaseDate":"2023-03-28","steamAppId":1888930},"g92":{"releaseDate":"2025-04-03","steamAppId":2531310},"g93":{"releaseDate":"2022-06-10","steamAppId":1577120},"g94":{"releaseDate":"2027-02-12","steamAppId":3558670},"g95":{"releaseDate":"2022-10-19","steamAppId":1659420},"g96":{"releaseDate":"2024-10-04","steamAppId":2172010},"g97":{"releaseDate":"2016-11-28","steamAppId":447040},"g98":{"releaseDate":"2015-05-18","steamAppId":292030}};
-const STORAGE_KEY = "game-library-v1";
-const THEME_KEY = "game-library-theme-v1";
-const PROFILE_CACHE_KEY = "game-library-steam-profile-v1";
-const STEAM_PROFILE_URL = "https://steamcommunity.com/id/shinhati4/";
-const PERFECT_BADGE_URL = "https://images.steamusercontent.com/ugc/9431171659763754078/D9B412A0E9582280D28EE7566B1F013847B9C4BF/?imw=88&imh=88&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true";
-
-const STATUS = {
-  completed:{label:"Ukończone",cls:"completed"},
-  perfect:{label:"100%",cls:"perfect"},
-  finish:{label:"Do skończenia",cls:"finish"},
-  preorder:{label:"Preorder",cls:"preorder"}
-};
-
-function isFutureRelease(dateStr){
-  if(!dateStr)return false;
-  const d=new Date(dateStr+"T00:00:00");
-  const n=new Date();
-  const today=new Date(n.getFullYear(),n.getMonth(),n.getDate());
-  return d>today;
-}
-
-function normalizeGames(arr){
-  return (Array.isArray(arr)?arr:[]).map(g=>{
-    const fixed=GAME_META[g.id]||{};
-    const old=g.statuses||{};
-    const releaseDate=g.id==="g46" ? "2018-03-26" : (g.releaseDate||fixed.releaseDate||"");
-    const title=g.id==="g46" ? "Far Cry 5" : (g.id==="g15" ? "Call of Duty®: Modern Warfare® 4" : g.title);
-    const steamAppId=g.id==="g46" ? 552520 : (g.steamAppId||fixed.steamAppId||null);
-
-    let selected=null;
-    if(isFutureRelease(releaseDate)) selected="preorder";
-    else if(old.perfect) selected="perfect";
-    else if(old.finish) selected="finish";
-    else if(old.completed) selected="completed";
-
-    return {
-      ...g,
-      title,
-      releaseDate,
-      steamAppId,
-      statuses:{
-        completed:selected==="completed",
-        perfect:selected==="perfect",
-        finish:selected==="finish",
-        preorder:selected==="preorder"
+const releaseSections=[
+  {
+    id:"y2026",
+    label:"2026",
+    meta:"CURRENT RELEASE QUEUE",
+    games:[
+      {
+        title:"Grand Theft Auto VI",
+        studio:"Rockstar Games",
+        date:"19.11.2026",
+        status:"confirmed",
+        statusLabel:"CONFIRMED",
+        image:"https://www.rockstargames.com/VI/_next/static/media/Official_Cover_Art_landscape.12.uu2irr.2_a.jpg?akim=1&imdensity=1&imwidth=3840"
+      },
+      {
+        title:"Silent Hill: Townfall",
+        studio:"Screen Burn Interactive",
+        date:"24.09.2026",
+        status:"confirmed",
+        statusLabel:"CONFIRMED",
+        image:"https://s.pacn.ws/1/p/14y/silent-hill-townfall-737111.8.jpg?v=tg1m7v"
       }
-    };
-  });
-}
-
-function cloneInitial(){return normalizeGames(JSON.parse(JSON.stringify(INITIAL_GAMES)))}
-function loadGames(){
-  try{
-    const raw=localStorage.getItem(STORAGE_KEY);
-    return raw?normalizeGames(JSON.parse(raw)):cloneInitial();
-  }catch(e){return cloneInitial()}
-}
-
-let games=loadGames();
-let currentId=null;
-
-function syncAutomaticPreorder(g){
-  if(!g)return;
-  if(isFutureRelease(g.releaseDate)){
-    Object.keys(g.statuses).forEach(k=>g.statuses[k]=false);
-    g.statuses.preorder=true;
-  }else if(g.statuses.preorder){
-    g.statuses.preorder=false;
+    ]
+  },
+  {
+    id:"y2027",
+    label:"2027",
+    meta:"NEXT CYCLE",
+    games:[
+      {
+        title:"Resident Evil Veronica",
+        studio:"CAPCOM",
+        date:"2027",
+        status:"confirmed",
+        statusLabel:"ANNOUNCED",
+        image:"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4824610/249c95eeaf9a26ffc90b6a55f3eda7fc72b1545c/library_capsule.jpg"
+      },
+      {
+        title:"Until Dawn 2",
+        studio:"Firesprite Games",
+        date:"28.01.2027",
+        status:"confirmed",
+        statusLabel:"CONFIRMED",
+        image:"https://cdn.alza.cz/Foto/ImgGalery/Image/until-dawn-2-keyart-concept.jpg"
+      }
+    ]
+  },
+  {
+    id:"y2028",
+    label:"2028",
+    meta:"LONG RANGE",
+    games:[
+      {
+        title:"The Witcher 4",
+        studio:"CD PROJEKT RED",
+        date:"2028",
+        status:"confirmed",
+        statusLabel:"TARGET 2028",
+        image:"https://upload.wikimedia.org/wikipedia/en/4/4c/The_Witcher_IV_logo.png",
+        logo:true
+      }
+    ]
+  },
+  {
+    id:"beyond",
+    label:"BEYOND",
+    meta:"UNANNOUNCED / NO DATE",
+    games:[
+      {
+        title:"Resident Evil 0 Remake",
+        studio:"M2 / CAPCOM",
+        date:"TBA",
+        status:"unannounced",
+        statusLabel:"UNANNOUNCED",
+        textCover:{big:"RESIDENT EVIL",sub:"0 REMAKE",mini:"UNANNOUNCED PROJECT"}
+      }
+    ]
   }
+];
+
+function esc(value){
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;");
 }
 
-function save(show=true){
-  localStorage.setItem(STORAGE_KEY,JSON.stringify(games));
-  if(show) toast("Zapisano");
-}
-function toast(text){
-  const e=document.getElementById("toast");
-  e.textContent=text;e.classList.add("show");
-  clearTimeout(window.__toast);
-  window.__toast=setTimeout(()=>e.classList.remove("show"),1100);
-}
-function esc(s){
-  return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'})[c]);
-}
-function sortedGames(){
-  return [...games].sort((a,b)=>a.title.localeCompare(b.title,"pl",{numeric:true,sensitivity:"base"}));
-}
-function formatDate(s){
-  if(!s)return "";
-  const d=new Date(s+"T00:00:00");
-  return d.toLocaleDateString("pl-PL",{day:"2-digit",month:"2-digit",year:"numeric"});
-}
-function daysUntil(s){
-  if(!s)return null;
-  const d=new Date(s+"T00:00:00");
-  const n=new Date();
-  const t=new Date(n.getFullYear(),n.getMonth(),n.getDate());
-  return Math.ceil((d-t)/86400000);
-}
-function countdownText(g){
-  if(!g.releaseDate||!g.statuses.preorder)return "";
-  const d=daysUntil(g.releaseDate);
-  if(d>1)return `premiera za ${d} dni`;
-  if(d===1)return "premiera jutro";
-  if(d===0)return "premiera dzisiaj";
-  return "";
-}
-function selectedStatus(g){
-  return Object.keys(STATUS).find(k=>g.statuses[k])||"";
-}
-function statusBadge(key){
-  if(!key)return "";
-  const s=STATUS[key];
-  return `<span class="status ${s.cls}">${key==="perfect"?`<img class="badge100" src="${PERFECT_BADGE_URL}" alt="">`:""}${esc(s.label)}</span>`;
-}
-
-function renderStats(){
-  const defs=[
-    ["completed","Ukończone"],
-    ["perfect","100%"],
-    ["finish","Do skończenia"],
-    ["preorder","Preorder"]
-  ];
-  document.getElementById("stats").innerHTML=defs.map(([k,l])=>`
-    <div class="stat"><div class="stat-n">${games.filter(g=>g.statuses[k]).length}</div><div class="stat-l">${l}</div></div>
-  `).join("");
-}
-function renderLibrary(){
-  const root=document.getElementById("library");
-  const list=sortedGames();
-  if(!list.length){root.innerHTML='<div class="empty">Lista jest pusta.</div>';return}
-  root.innerHTML=list.map(g=>{
-    const key=selectedStatus(g);
-    const cd=countdownText(g);
-    return `
-      <article class="card" data-open="${esc(g.id)}" data-status="${key}">
-        <div class="card-body">
-          <div class="game-title">${esc(g.title)}</div>
-          <div class="meta">
-            <span>${formatDate(g.releaseDate)}</span>
-            ${cd?`<span>·</span><span class="countdown">${esc(cd)}</span>`:""}
-          </div>
-          <div class="status-wrap">${statusBadge(key)}</div>
-        </div>
-      </article>`;
-  }).join("");
-}
-function render(){
-  document.getElementById("totalCount").textContent=games.length;
-  renderStats();
-  renderLibrary();
-}
-
-function renderDetailStatuses(g){
-  document.getElementById("detailStatuses").innerHTML=Object.entries(STATUS).map(([k,v])=>`
-    <button class="status-option ${g.statuses[k]?"on":""}" data-detail-toggle="${k}" data-status="${k}">
-      ${k==="perfect"?`<img class="badge100" src="${PERFECT_BADGE_URL}" alt=""> `:""}${esc(v.label)}
-    </button>
-  `).join("");
-}
-function updateDetailCountdown(){
-  const date=document.getElementById("detailDate").value;
-  const out=document.getElementById("detailCountdown");
-  if(!date){out.textContent="";return}
-  const d=daysUntil(date);
-  if(d>1)out.textContent=`Premiera za ${d} dni.`;
-  else if(d===1)out.textContent="Premiera jutro.";
-  else if(d===0)out.textContent="Premiera dzisiaj.";
-  else out.textContent="Gra jest już po premierze.";
-}
-function openDetail(id){
-  currentId=id;
-  const g=games.find(x=>x.id===id);
-  if(!g)return;
-  syncAutomaticPreorder(g);
-  document.getElementById("detailHeading").textContent=g.title;
-  document.getElementById("detailTitle").value=g.title;
-  document.getElementById("detailDate").value=g.releaseDate||"";
-  renderDetailStatuses(g);
-  updateDetailCountdown();
-  const link=document.getElementById("steamLink");
-  if(g.steamAppId){
-    link.style.display="inline-flex";
-    link.href=`https://store.steampowered.com/app/${g.steamAppId}/`;
-  }else{
-    link.style.display="none";
+function poster(game,index){
+  if(game.textCover){
+    return `<div class="text-cover"><div><div class="tc-big">${esc(game.textCover.big)}</div><div class="tc-sub">${esc(game.textCover.sub)}</div><div class="tc-mini">${esc(game.textCover.mini)}</div></div></div><span class="poster-code">NODE_${String(index+1).padStart(2,"0")}</span>`;
   }
-  document.getElementById("detailBackdrop").classList.add("open");
+  const cls=game.logo?"poster logo-mode":"poster";
+  return `<img class="${cls}" src="${esc(game.image)}" alt="${esc(game.title)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="text-cover" style="display:none"><div><div class="tc-big">${esc(game.title)}</div><div class="tc-sub">IMAGE OFFLINE</div><div class="tc-mini">FALLBACK MODE</div></div></div><span class="poster-code">NODE_${String(index+1).padStart(2,"0")}</span>`;
 }
 
-document.addEventListener("click",e=>{
-  const t=e.target;
-  const card=t.closest?.("[data-open]");
-  if(card){openDetail(card.dataset.open);return}
-
-  if(t.dataset.detailToggle){
-    const g=games.find(x=>x.id===currentId);
-    if(!g)return;
-    const key=t.dataset.detailToggle;
-    const currentDate=document.getElementById("detailDate").value;
-
-    if(isFutureRelease(currentDate) && key!=="preorder"){
-      toast("Gra przed premierą — status Preorder jest ustawiany automatycznie");
-      Object.keys(g.statuses).forEach(k=>g.statuses[k]=false);
-      g.statuses.preorder=true;
-      renderDetailStatuses(g);
-      return;
-    }
-
-    const wasActive=!!g.statuses[key];
-    Object.keys(g.statuses).forEach(k=>g.statuses[k]=false);
-    if(!wasActive)g.statuses[key]=true;
-    renderDetailStatuses(g);
-    return;
-  }
-
-  if(t.dataset.close){
-    document.getElementById(t.dataset.close).classList.remove("open");
-    return;
-  }
-  if(t.classList.contains("modal-backdrop"))t.classList.remove("open");
-});
-
-document.getElementById("detailDate").addEventListener("input",()=>{
-  updateDetailCountdown();
-  const g=games.find(x=>x.id===currentId);
-  if(!g)return;
-  g.releaseDate=document.getElementById("detailDate").value;
-  syncAutomaticPreorder(g);
-  renderDetailStatuses(g);
-});
-
-document.getElementById("saveDetailBtn").addEventListener("click",()=>{
-  const g=games.find(x=>x.id===currentId);
-  if(!g)return;
-  const title=document.getElementById("detailTitle").value.trim();
-  if(!title)return toast("Tytuł nie może być pusty");
-  g.title=title;
-  g.releaseDate=document.getElementById("detailDate").value;
-  syncAutomaticPreorder(g);
-  save(false);
-  document.getElementById("detailBackdrop").classList.remove("open");
-  render();
-  toast("Zmiany zapisane");
-});
-
-document.getElementById("deleteBtn").addEventListener("click",()=>{
-  const g=games.find(x=>x.id===currentId);
-  if(!g)return;
-  if(confirm(`Usunąć „${g.title}” z listy?`)){
-    games=games.filter(x=>x.id!==currentId);
-    save(false);
-    document.getElementById("detailBackdrop").classList.remove("open");
-    render();
-    toast("Gra usunięta");
-  }
-});
-
-document.getElementById("addBtn").addEventListener("click",()=>{
-  document.getElementById("addTitle").value="";
-  document.getElementById("addDate").value="";
-  document.getElementById("addAppId").value="";
-  document.getElementById("addBackdrop").classList.add("open");
-  setTimeout(()=>document.getElementById("addTitle").focus(),60);
-});
-
-document.getElementById("confirmAddBtn").addEventListener("click",()=>{
-  const title=document.getElementById("addTitle").value.trim();
-  if(!title)return toast("Wpisz tytuł gry");
-  const app=document.getElementById("addAppId").value.trim();
-  const releaseDate=document.getElementById("addDate").value;
-  const newGame={
-    id:"g"+Date.now().toString(36)+Math.random().toString(36).slice(2,6),
-    title,
-    releaseDate,
-    steamAppId:app?Number(app):null,
-    statuses:{completed:false,perfect:false,finish:false,preorder:false}
-  };
-  syncAutomaticPreorder(newGame);
-  games.push(newGame);
-  save(false);
-  document.getElementById("addBackdrop").classList.remove("open");
-  render();
-  toast("Gra dodana");
-});
-
-
-function applyTheme(theme){
-  document.documentElement.dataset.theme=theme;
-  localStorage.setItem(THEME_KEY,theme);
-  const dark=theme==="dark";
-  document.getElementById("themeIcon").textContent=dark?"☀":"☾";
-  document.getElementById("themeLabel").textContent=dark?"Tryb jasny":"Tryb ciemny";
-}
-document.getElementById("themeBtn").addEventListener("click",()=>{
-  applyTheme(document.documentElement.dataset.theme==="dark"?"light":"dark");
-});
-applyTheme(localStorage.getItem(THEME_KEY)||"light");
-
-document.addEventListener("keydown",e=>{
-  if(e.key==="Escape")document.querySelectorAll(".modal-backdrop.open").forEach(x=>x.classList.remove("open"));
-  if(e.key==="Enter"&&document.getElementById("addBackdrop").classList.contains("open")){
-    document.getElementById("confirmAddBtn").click();
-  }
-});
-
-function applyProfile(data){
-  if(!data)return;
-  if(data.name)document.getElementById("profileName").textContent=data.name;
-  if(data.avatar){
-    const img=document.getElementById("profileAvatar");
-    const fb=document.getElementById("avatarFallback");
-    img.onload=()=>{img.style.display="block";fb.style.display="none"};
-    img.src=data.avatar;
-  }
-}
-async function loadProfile(){
-  try{
-    const cached=JSON.parse(localStorage.getItem(PROFILE_CACHE_KEY)||"null");
-    if(cached)applyProfile(cached);
-  }catch(e){}
-  const xml=STEAM_PROFILE_URL+"?xml=1";
-  const proxy="https://api.allorigins.win/raw?url="+encodeURIComponent(xml);
-  try{
-    const r=await fetch(proxy,{cache:"no-store"});
-    if(!r.ok)throw 0;
-    const doc=new DOMParser().parseFromString(await r.text(),"text/xml");
-    const val=q=>doc.querySelector(q)?.textContent.trim()||"";
-    const data={name:val("steamID")||"shinhati",avatar:val("avatarFull")||val("avatarMedium")||""};
-    applyProfile(data);
-    localStorage.setItem(PROFILE_CACHE_KEY,JSON.stringify(data));
-  }catch(e){}
+function card(game,index){
+  return `<article class="card">
+    <div class="poster-wrap">${poster(game,index)}</div>
+    <div class="info">
+      <div class="studio">${esc(game.studio)}</div>
+      <div class="title">${esc(game.title)}</div>
+      <div class="release">${esc(game.date)}</div>
+      <div class="status-row">
+        <span class="status ${esc(game.status)}">${esc(game.statusLabel)}</span>
+        <span class="node">DB_${String(index+1).padStart(3,"0")}</span>
+      </div>
+    </div>
+  </article>`;
 }
 
-render();
-loadProfile();
+function section(block,sectionIndex){
+  return `<section class="section" id="${esc(block.id)}">
+    <div class="section-head">
+      <div class="year-code">${esc(block.label)}</div>
+      <div class="section-line"></div>
+      <div class="section-meta">SECTOR_${String(sectionIndex+1).padStart(2,"0")} // ${esc(block.meta)}</div>
+    </div>
+    <div class="rail">${block.games.map(card).join("")}</div>
+  </section>`;
+}
+
+document.getElementById("app").innerHTML=releaseSections.map(section).join("");
 </script>
 </body>
 </html>
