@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Upcoming Games // 90s Release Archive</title>
-<meta name="description" content="Upcoming games release tracker for 2026, 2027, 2028 and beyond.">
+<title>Gry jednak wychodzą // Archiwum premier</title>
+<meta name="description" content="Tracker nadchodzących gier na 2026, 2027, 2028 i dalej.">
 <meta name="theme-color" content="#79d6f2">
 <style>
 :root{
@@ -158,63 +158,63 @@ button,a{font:inherit}
 <div class="desktop">
   <div class="window">
     <div class="titlebar">
-      <div class="title-left"><span class="app-icon">G</span><span>Upcoming Games - Release Explorer</span></div>
-      <div class="window-buttons"><button class="win-btn" aria-label="minimize">_</button><button class="win-btn" aria-label="maximize">□</button><button class="win-btn" aria-label="close">×</button></div>
+      <div class="title-left"><span class="app-icon">G</span><span>Gry jednak wychodzą</span></div>
+      <div class="window-buttons"><button class="win-btn" aria-label="minimalizuj">_</button><button class="win-btn" aria-label="maksymalizuj">□</button><button class="win-btn" aria-label="zamknij">×</button></div>
     </div>
-    <div class="menubar"><span>File</span><span>Edit</span><span>View</span><span>Favorites</span><span>Help</span></div>
+    <div class="menubar"><span>Plik</span><span>Edycja</span><span>Widok</span><span>Ulubione</span><span>Pomoc</span></div>
     <div class="toolbar">
-      <button class="tool">←</button><button class="tool">→</button><button class="tool">⌂</button><button class="tool">★</button><button class="tool brandmark">UG</button>
+      <button class="tool">←</button><button class="tool">→</button><button class="tool">⌂</button><button class="tool">★</button><button class="tool brandmark">GW</button>
     </div>
-    <div class="address-row"><span class="address-label">Address:</span><div class="address-box">http://localhost/upcoming-games/2026-and-beyond</div></div>
+    <div class="address-row"><span class="address-label">Adres:</span><div class="address-box">http://localhost/przemo-nie-ma-racji/2026idalej</div></div>
 
     <div class="page">
       <section class="hero">
         <div class="hero-card">
-          <div class="kicker">// UPCOMING_GAME_ARCHIVE.EXE</div>
-          <h1>Future Releases</h1>
-          <p>One page. Four release windows. Upcoming games, studios and release targets in a loud late-90s web interface.</p>
+          <div class="kicker">// ARCHIWUM_GIER.EXE</div>
+          <h1>Nadchodzące premiery</h1>
+          <p>Jedna strona. Cztery okna premier. Nadchodzące gry, studia i planowane daty w kolorowym interfejsie rodem z końcówki lat 90.</p>
         </div>
       </section>
 
-      <nav class="year-tabs" aria-label="Release years">
-        <a href="#y2026">2026</a><a href="#y2027">2027</a><a href="#y2028">2028</a><a href="#beyond">BEYOND</a>
+      <nav class="year-tabs" aria-label="Lata premier">
+        <a href="#y2026">2026</a><a href="#y2027">2027</a><a href="#y2028">2028</a><a href="#beyond">DALEJ</a>
       </nav>
 
       <main id="app"></main>
 
-      <div class="statusbar"><span>READY // 4 RELEASE SECTORS LOADED</span><span>BUILD_002</span></div>
+      <div class="statusbar"><span>GOTOWE // WCZYTANO 4 SEKCJE PREMIER</span><span>BUILD_003</span></div>
     </div>
   </div>
 </div>
 <script>
 const releaseSections=[
-  {id:"y2026",label:"2026",note:"CURRENT RELEASE WINDOW",games:[
-    {title:"Grand Theft Auto VI",studio:"Rockstar Games",date:"19.11.2026",status:"CONFIRMED",image:"https://www.rockstargames.com/VI/_next/static/media/Official_Cover_Art_landscape.12.uu2irr.2_a.jpg?akim=1&imdensity=1&imwidth=3840"},
-    {title:"Silent Hill: Townfall",studio:"Screen Burn Interactive",date:"24.09.2026",status:"CONFIRMED",image:"https://s.pacn.ws/1/p/14y/silent-hill-townfall-737111.8.jpg?v=tg1m7v"}
+  {id:"y2026",label:"2026",note:"OBECNE OKNO PREMIER",games:[
+    {title:"Grand Theft Auto VI",studio:"Rockstar Games",date:"19.11.2026",status:"POTWIERDZONE",image:"https://www.rockstargames.com/VI/_next/static/media/Official_Cover_Art_landscape.12.uu2irr.2_a.jpg?akim=1&imdensity=1&imwidth=3840"},
+    {title:"Silent Hill: Townfall",studio:"Screen Burn Interactive",date:"24.09.2026",status:"POTWIERDZONE",image:"https://s.pacn.ws/1/p/14y/silent-hill-townfall-737111.8.jpg?v=tg1m7v"}
   ]},
-  {id:"y2027",label:"2027",note:"NEXT RELEASE WINDOW",games:[
-    {title:"Resident Evil Veronica",studio:"CAPCOM",date:"2027",status:"ANNOUNCED",image:"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4824610/249c95eeaf9a26ffc90b6a55f3eda7fc72b1545c/library_capsule.jpg"},
-    {title:"Until Dawn 2",studio:"Firesprite Games",date:"28.01.2027",status:"CONFIRMED",image:"https://cdn.alza.cz/Foto/ImgGalery/Image/until-dawn-2-keyart-concept.jpg"}
+  {id:"y2027",label:"2027",note:"NASTĘPNE OKNO PREMIER",games:[
+    {title:"Resident Evil Veronica",studio:"CAPCOM",date:"2027",status:"ZAPOWIEDZIANE",image:"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4824610/249c95eeaf9a26ffc90b6a55f3eda7fc72b1545c/library_capsule.jpg"},
+    {title:"Until Dawn 2",studio:"Firesprite Games",date:"28.01.2027",status:"POTWIERDZONE",image:"https://cdn.alza.cz/Foto/ImgGalery/Image/until-dawn-2-keyart-concept.jpg"}
   ]},
-  {id:"y2028",label:"2028",note:"LONG-RANGE PROJECTS",games:[
-    {title:"The Witcher 4",studio:"CD PROJEKT RED",date:"2028",status:"TARGET 2028",image:"https://upload.wikimedia.org/wikipedia/en/4/4c/The_Witcher_IV_logo.png",logo:true}
+  {id:"y2028",label:"2028",note:"PROJEKTY DALSZEGO HORYZONTU",games:[
+    {title:"Wiedźmin 4",studio:"CD PROJEKT RED",date:"2028",status:"CEL: 2028",image:"https://upload.wikimedia.org/wikipedia/en/4/4c/The_Witcher_IV_logo.png",logo:true}
   ]},
-  {id:"beyond",label:"BEYOND",note:"UNANNOUNCED / NO RELEASE DATE",games:[
-    {title:"Resident Evil 0 Remake",studio:"M2 / CAPCOM",date:"TBA",status:"UNANNOUNCED",textCover:true}
+  {id:"beyond",label:"DALEJ",note:"NIEZAPOWIEDZIANE / BRAK DATY PREMIERY",games:[
+    {title:"Resident Evil 0 Remake",studio:"M2 / CAPCOM",date:"BRAK DATY",status:"NIEZAPOWIEDZIANE",textCover:true}
   ]}
 ];
 function esc(v){return String(v).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;")}
 function poster(game){
-  if(game.textCover)return `<div class="fallback"><div><strong>RESIDENT EVIL</strong><small>0 REMAKE<br>UNANNOUNCED PROJECT</small></div></div>`;
+  if(game.textCover)return `<div class="fallback"><div><strong>RESIDENT EVIL</strong><small>0 REMAKE<br>NIEZAPOWIEDZIANY PROJEKT</small></div></div>`;
   const cls=game.logo?"poster logo":"poster";
-  return `<img class="${cls}" src="${esc(game.image)}" alt="${esc(game.title)}" loading="lazy" onerror="this.outerHTML='<div class=&quot;fallback&quot;><div><strong>IMAGE OFFLINE</strong><small>${esc(game.title)}</small></div></div>'">`;
+  return `<img class="${cls}" src="${esc(game.image)}" alt="${esc(game.title)}" loading="lazy" onerror="this.outerHTML='<div class=&quot;fallback&quot;><div><strong>GRAFIKA NIEDOSTĘPNA</strong><small>${esc(game.title)}</small></div></div>'">`;
 }
 function card(game,i){
-  const unannounced=game.status==="UNANNOUNCED"?" unannounced":"";
-  return `<article class="game-card"><div class="poster-wrap">${poster(game)}</div><div class="card-body"><div class="studio">${esc(game.studio)}</div><div class="game-title">${esc(game.title)}</div><div class="release"><b>&gt;</b> ${esc(game.date)}</div><div class="badges"><span class="badge${unannounced}">${esc(game.status)}</span><span class="node">ITEM_${String(i+1).padStart(2,"0")}</span></div></div></article>`;
+  const unannounced=game.status==="NIEZAPOWIEDZIANE"?" unannounced":"";
+  return `<article class="game-card"><div class="poster-wrap">${poster(game)}</div><div class="card-body"><div class="studio">${esc(game.studio)}</div><div class="game-title">${esc(game.title)}</div><div class="release"><b>&gt;</b> ${esc(game.date)}</div><div class="badges"><span class="badge${unannounced}">${esc(game.status)}</span><span class="node">POZYCJA_${String(i+1).padStart(2,"0")}</span></div></div></article>`;
 }
 function section(block,index){
-  return `<section class="window release-window" id="${esc(block.id)}"><div class="titlebar release-titlebar"><div class="title-left"><span class="app-icon">${String(index+1).padStart(2,"0")}</span><span>${esc(block.label)} // RELEASES</span></div><div class="window-buttons"><button class="win-btn">_</button><button class="win-btn">□</button><button class="win-btn">×</button></div></div><div class="release-inner"><p class="section-note">&gt; ${esc(block.note)}</p><div class="rail">${block.games.map(card).join("")}</div></div></section>`;
+  return `<section class="window release-window" id="${esc(block.id)}"><div class="titlebar release-titlebar"><div class="title-left"><span class="app-icon">${String(index+1).padStart(2,"0")}</span><span>${esc(block.label)} // PREMIERY</span></div><div class="window-buttons"><button class="win-btn">_</button><button class="win-btn">□</button><button class="win-btn">×</button></div></div><div class="release-inner"><p class="section-note">&gt; ${esc(block.note)}</p><div class="rail">${block.games.map(card).join("")}</div></div></section>`;
 }
 document.getElementById("app").innerHTML=releaseSections.map(section).join("");
 </script>
