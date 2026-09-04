@@ -182,39 +182,72 @@ button,a{font:inherit}
 
       <main id="app"></main>
 
-      <div class="statusbar"><span>GOTOWE // WCZYTANO 4 SEKCJE PREMIER</span><span>BUILD_003</span></div>
+      <div class="statusbar"><span>GOTOWE // WCZYTANO 4 SEKCJE PREMIER</span><span>BUILD_004</span></div>
     </div>
   </div>
 </div>
 <script>
 const releaseSections=[
-  {id:"y2026",label:"2026",note:"OBECNE OKNO PREMIER",games:[
-    {title:"Grand Theft Auto VI",studio:"Rockstar Games",date:"19.11.2026",status:"POTWIERDZONE",image:"https://www.rockstargames.com/VI/_next/static/media/Official_Cover_Art_landscape.12.uu2irr.2_a.jpg?akim=1&imdensity=1&imwidth=3840"},
-    {title:"Silent Hill: Townfall",studio:"Screen Burn Interactive",date:"24.09.2026",status:"POTWIERDZONE",image:"https://s.pacn.ws/1/p/14y/silent-hill-townfall-737111.8.jpg?v=tg1m7v"}
+  {id:"y2026",label:"2026",note:"OBECNE OKNO PREMIER // SORTOWANIE: NAJNOWSZE → NAJSTARSZE",games:[
+    {title:"Grand Theft Auto VI",studio:"Rockstar Games",date:"19.11.2026",sortDate:"2026-11-19",status:"POTWIERDZONE",image:"https://www.rockstargames.com/VI/_next/static/media/Official_Cover_Art_landscape.12.uu2irr.2_a.jpg?akim=1&imdensity=1&imwidth=3840"},
+    {title:"Phantom Blade Zero",studio:"S-GAME Studio",date:"29.10.2026",sortDate:"2026-10-29",status:"POTWIERDZONE",steamAppId:"4115450"},
+    {title:"The Wolf Among Us Remastered",studio:"Telltale",date:"29.10.2026",sortDate:"2026-10-29",status:"POTWIERDZONE",steamAppId:"3884860"},
+    {title:"Call of Duty: Modern Warfare 4",studio:"Infinity Ward",date:"23.10.2026",sortDate:"2026-10-23",status:"POTWIERDZONE",steamAppId:"4435490"},
+    {title:"Clive Barker's Hellraiser: Revival",studio:"Saber Interactive",date:"08.10.2026",sortDate:"2026-10-08",status:"POTWIERDZONE",steamAppId:"1551980"},
+    {title:"STAR WARS: Galactic Racer",studio:"Fuse Games",date:"06.10.2026",sortDate:"2026-10-06",status:"POTWIERDZONE",steamAppId:"4078430"},
+    {title:"EA SPORTS FC 27",studio:"EA Canada / EA Romania",date:"25.09.2026",sortDate:"2026-09-25",status:"POTWIERDZONE",steamAppId:"4080220"},
+    {title:"CONTROL Resonant",studio:"Remedy Entertainment",date:"24.09.2026",sortDate:"2026-09-24",status:"POTWIERDZONE",steamAppId:"3669870"},
+    {title:"SILENT HILL: Townfall",studio:"Screen Burn Interactive",date:"24.09.2026",sortDate:"2026-09-24",status:"POTWIERDZONE",steamAppId:"1636440"},
+    {title:"Marvel's Wolverine",studio:"Insomniac Games",date:"15.09.2026",sortDate:"2026-09-15",status:"PS5",image:"https://image.api.playstation.com/vulcan/ap/rnd/202605/2221/5ba04b023e0b4c4aa7fbdbf2170262a52bc0384ee44efce0.jpg"},
+    {title:"Halloween: The Game",studio:"IllFonic",date:"08.09.2026",sortDate:"2026-09-08",status:"POTWIERDZONE",steamAppId:"3219630"}
   ]},
   {id:"y2027",label:"2027",note:"NASTĘPNE OKNO PREMIER",games:[
-    {title:"Resident Evil Veronica",studio:"CAPCOM",date:"2027",status:"ZAPOWIEDZIANE",image:"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4824610/249c95eeaf9a26ffc90b6a55f3eda7fc72b1545c/library_capsule.jpg"},
-    {title:"Until Dawn 2",studio:"Firesprite Games",date:"28.01.2027",status:"POTWIERDZONE",image:"https://cdn.alza.cz/Foto/ImgGalery/Image/until-dawn-2-keyart-concept.jpg"}
+    {title:"Resident Evil Veronica",studio:"CAPCOM",date:"2027",sortDate:"2027-12-31",status:"ZAPOWIEDZIANE",image:"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4824610/249c95eeaf9a26ffc90b6a55f3eda7fc72b1545c/library_capsule.jpg"},
+    {title:"Until Dawn 2",studio:"Firesprite Games",date:"28.01.2027",sortDate:"2027-01-28",status:"POTWIERDZONE",image:"https://cdn.alza.cz/Foto/ImgGalery/Image/until-dawn-2-keyart-concept.jpg"}
   ]},
   {id:"y2028",label:"2028",note:"PROJEKTY DALSZEGO HORYZONTU",games:[
-    {title:"Wiedźmin 4",studio:"CD PROJEKT RED",date:"2028",status:"CEL: 2028",image:"https://upload.wikimedia.org/wikipedia/en/4/4c/The_Witcher_IV_logo.png",logo:true}
+    {title:"Wiedźmin 4",studio:"CD PROJEKT RED",date:"2028",sortDate:"2028-12-31",status:"CEL: 2028",image:"https://upload.wikimedia.org/wikipedia/en/4/4c/The_Witcher_IV_logo.png",logo:true}
   ]},
   {id:"beyond",label:"DALEJ",note:"NIEZAPOWIEDZIANE / BRAK DATY PREMIERY",games:[
-    {title:"Resident Evil 0 Remake",studio:"M2 / CAPCOM",date:"BRAK DATY",status:"NIEZAPOWIEDZIANE",textCover:true}
+    {title:"Resident Evil 0 Remake",studio:"M2 / CAPCOM",date:"BRAK DATY",sortDate:"9999-12-31",status:"NIEZAPOWIEDZIANE",textCover:true}
   ]}
 ];
 function esc(v){return String(v).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;")}
+function steamImages(appId){
+  if(!appId)return [];
+  return [
+    `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${appId}/library_600x900_2x.jpg`,
+    `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${appId}/library_600x900.jpg`,
+    `https://cdn.cloudflare.steamstatic.com/steam/apps/${appId}/library_600x900.jpg`
+  ];
+}
+function fallbackMarkup(title){return `<div class="fallback"><div><strong>GRAFIKA NIEDOSTĘPNA</strong><small>${esc(title)}</small></div></div>`}
 function poster(game){
   if(game.textCover)return `<div class="fallback"><div><strong>RESIDENT EVIL</strong><small>0 REMAKE<br>NIEZAPOWIEDZIANY PROJEKT</small></div></div>`;
+  const candidates=[game.image,...steamImages(game.steamAppId)].filter(Boolean);
+  if(!candidates.length)return fallbackMarkup(game.title);
   const cls=game.logo?"poster logo":"poster";
-  return `<img class="${cls}" src="${esc(game.image)}" alt="${esc(game.title)}" loading="lazy" onerror="this.outerHTML='<div class=&quot;fallback&quot;><div><strong>GRAFIKA NIEDOSTĘPNA</strong><small>${esc(game.title)}</small></div></div>'">`;
+  const [first,...rest]=candidates;
+  return `<img class="${cls}" src="${esc(first)}" alt="${esc(game.title)}" loading="lazy" data-title="${esc(game.title)}" data-fallbacks="${encodeURIComponent(JSON.stringify(rest))}" onerror="nextImage(this)">`;
+}
+function nextImage(img){
+  let rest=[];
+  try{rest=JSON.parse(decodeURIComponent(img.dataset.fallbacks||"%5B%5D"));}catch(e){}
+  if(rest.length){
+    const next=rest.shift();
+    img.dataset.fallbacks=encodeURIComponent(JSON.stringify(rest));
+    img.src=next;
+    return;
+  }
+  img.outerHTML=fallbackMarkup(img.dataset.title||"GRA");
 }
 function card(game,i){
   const unannounced=game.status==="NIEZAPOWIEDZIANE"?" unannounced":"";
   return `<article class="game-card"><div class="poster-wrap">${poster(game)}</div><div class="card-body"><div class="studio">${esc(game.studio)}</div><div class="game-title">${esc(game.title)}</div><div class="release"><b>&gt;</b> ${esc(game.date)}</div><div class="badges"><span class="badge${unannounced}">${esc(game.status)}</span><span class="node">POZYCJA_${String(i+1).padStart(2,"0")}</span></div></div></article>`;
 }
 function section(block,index){
-  return `<section class="window release-window" id="${esc(block.id)}"><div class="titlebar release-titlebar"><div class="title-left"><span class="app-icon">${String(index+1).padStart(2,"0")}</span><span>${esc(block.label)} // PREMIERY</span></div><div class="window-buttons"><button class="win-btn">_</button><button class="win-btn">□</button><button class="win-btn">×</button></div></div><div class="release-inner"><p class="section-note">&gt; ${esc(block.note)}</p><div class="rail">${block.games.map(card).join("")}</div></div></section>`;
+  const games=[...block.games].sort((a,b)=>(b.sortDate||"").localeCompare(a.sortDate||""));
+  return `<section class="window release-window" id="${esc(block.id)}"><div class="titlebar release-titlebar"><div class="title-left"><span class="app-icon">${String(index+1).padStart(2,"0")}</span><span>${esc(block.label)} // PREMIERY</span></div><div class="window-buttons"><button class="win-btn">_</button><button class="win-btn">□</button><button class="win-btn">×</button></div></div><div class="release-inner"><p class="section-note">&gt; ${esc(block.note)}</p><div class="rail">${games.map(card).join("")}</div></div></section>`;
 }
 document.getElementById("app").innerHTML=releaseSections.map(section).join("");
 </script>
