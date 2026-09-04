@@ -182,24 +182,25 @@ button,a{font:inherit}
 
       <main id="app"></main>
 
-      <div class="statusbar"><span>GOTOWE // WCZYTANO 4 SEKCJE PREMIER</span><span>BUILD_004</span></div>
+      <div class="statusbar"><span>GOTOWE // WCZYTANO 4 SEKCJE PREMIER</span><span>BUILD_005</span></div>
     </div>
   </div>
 </div>
 <script>
 const releaseSections=[
-  {id:"y2026",label:"2026",note:"OBECNE OKNO PREMIER // SORTOWANIE: NAJNOWSZE → NAJSTARSZE",games:[
+  {id:"y2026",label:"2026",note:"OBECNE OKNO PREMIER // SORTOWANIE: NAJBLIŻSZE → PÓŹNIEJSZE",games:[
     {title:"Grand Theft Auto VI",studio:"Rockstar Games",date:"19.11.2026",sortDate:"2026-11-19",status:"POTWIERDZONE",image:"https://www.rockstargames.com/VI/_next/static/media/Official_Cover_Art_landscape.12.uu2irr.2_a.jpg?akim=1&imdensity=1&imwidth=3840"},
-    {title:"Phantom Blade Zero",studio:"S-GAME Studio",date:"29.10.2026",sortDate:"2026-10-29",status:"POTWIERDZONE",steamAppId:"4115450"},
-    {title:"The Wolf Among Us Remastered",studio:"Telltale",date:"29.10.2026",sortDate:"2026-10-29",status:"POTWIERDZONE",steamAppId:"3884860"},
-    {title:"Call of Duty: Modern Warfare 4",studio:"Infinity Ward",date:"23.10.2026",sortDate:"2026-10-23",status:"POTWIERDZONE",steamAppId:"4435490"},
-    {title:"Clive Barker's Hellraiser: Revival",studio:"Saber Interactive",date:"08.10.2026",sortDate:"2026-10-08",status:"POTWIERDZONE",steamAppId:"1551980"},
-    {title:"STAR WARS: Galactic Racer",studio:"Fuse Games",date:"06.10.2026",sortDate:"2026-10-06",status:"POTWIERDZONE",steamAppId:"4078430"},
-    {title:"EA SPORTS FC 27",studio:"EA Canada / EA Romania",date:"25.09.2026",sortDate:"2026-09-25",status:"POTWIERDZONE",steamAppId:"4080220"},
-    {title:"CONTROL Resonant",studio:"Remedy Entertainment",date:"24.09.2026",sortDate:"2026-09-24",status:"POTWIERDZONE",steamAppId:"3669870"},
-    {title:"SILENT HILL: Townfall",studio:"Screen Burn Interactive",date:"24.09.2026",sortDate:"2026-09-24",status:"POTWIERDZONE",steamAppId:"1636440"},
-    {title:"Marvel's Wolverine",studio:"Insomniac Games",date:"15.09.2026",sortDate:"2026-09-15",status:"PS5",image:"https://image.api.playstation.com/vulcan/ap/rnd/202605/2221/5ba04b023e0b4c4aa7fbdbf2170262a52bc0384ee44efce0.jpg"},
-    {title:"Halloween: The Game",studio:"IllFonic",date:"08.09.2026",sortDate:"2026-09-08",status:"POTWIERDZONE",steamAppId:"3219630"}
+    {title:"The Wolf Among Us Remastered",studio:"Telltale",date:"29.10.2026",sortDate:"2026-10-29",status:"POTWIERDZONE",image:"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3884860/80ddd096b6fdd5ab25162251bee4131c78cdf351/header.jpg?t=1784650236"},
+    {title:"Phantom Blade Zero",studio:"S-GAME Studio",date:"28.10.2026",sortDate:"2026-10-28",status:"POTWIERDZONE",image:"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4115450/5930310dc5f043a1df400d9dc70ddb43843480fc/header.jpg?t=1780474298"},
+    {title:"Call of Duty: Modern Warfare 4",studio:"Infinity Ward",date:"23.10.2026",sortDate:"2026-10-23",status:"POTWIERDZONE",image:"https://www.callofduty.com/content/dam/atvi/callofduty/cod-touchui/mw4/play-now/MW4LP_BuyNow_MW4VE.webp"},
+    {title:"Clive Barker's Hellraiser: Revival",studio:"Saber Interactive",date:"08.10.2026",sortDate:"2026-10-08",status:"POTWIERDZONE",image:"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1551980/d1e7111b93b6a8b3eb029908887648348c2c55e6/header.jpg?t=1781690093"},
+    {title:"STAR WARS: Galactic Racer",studio:"Fuse Games",date:"06.10.2026",sortDate:"2026-10-06",status:"POTWIERDZONE",image:"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4078430/97215eb609882139ce6a28419116be23fcf5ac86/header.jpg?t=1785854640"},
+    {title:"Wiedźmin 3: Dziki Gon — Remastered",studio:"CD PROJEKT RED",date:"29.09.2026",sortDate:"2026-09-29",status:"POTWIERDZONE",image:"https://www.thewitcher.com/_next/image/v1?q=75&url=%2F_next%2Fstatic%2Fmedia%2F1920.124pjo-i_t6bt.jpg&w=3840"},
+    {title:"EA SPORTS FC 27",studio:"EA Canada / EA Romania",date:"25.09.2026",sortDate:"2026-09-25",status:"POTWIERDZONE",image:"https://mms.businesswire.com/media/20260723334852/en/2858678/4/assets_2026_07_1784296826_Copy_of_EA_FC27_ULT_KeyArt_RGB_16-9_1920x1080.jpg"},
+    {title:"CONTROL Resonant",studio:"Remedy Entertainment",date:"24.09.2026",sortDate:"2026-09-24",status:"POTWIERDZONE",image:"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3669870/1e0c76e4253d347bb1304c3f213570251d924edf/header.jpg?t=1784555062"},
+    {title:"SILENT HILL: Townfall",studio:"Screen Burn Interactive",date:"24.09.2026",sortDate:"2026-09-24",status:"POTWIERDZONE",image:"https://blog.playstation.com/tachyon/2026/06/d86a7dc035f1d019e05b02b9af2c5946bf406659.jpg?crop_strategy=smart&resize=1088%2C612"},
+    {title:"Marvel's Wolverine",studio:"Insomniac Games",date:"15.09.2026",sortDate:"2026-09-15",status:"PS5",image:"https://blog.playstation.com/tachyon/2026/06/81a9c783e964f2a74ec46253e6d81a4f6bd84a3a-scaled.jpg?crop_strategy=smart&resize=1088%2C612"},
+    {title:"Halloween: The Game",studio:"IllFonic",date:"08.09.2026",sortDate:"2026-09-08",status:"POTWIERDZONE",image:"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3219630/153ed105c4b409fe689783e4f9b6aad72c152646/header.jpg?t=1785777766"}
   ]},
   {id:"y2027",label:"2027",note:"NASTĘPNE OKNO PREMIER",games:[
     {title:"Resident Evil Veronica",studio:"CAPCOM",date:"2027",sortDate:"2027-12-31",status:"ZAPOWIEDZIANE",image:"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4824610/249c95eeaf9a26ffc90b6a55f3eda7fc72b1545c/library_capsule.jpg"},
@@ -246,7 +247,7 @@ function card(game,i){
   return `<article class="game-card"><div class="poster-wrap">${poster(game)}</div><div class="card-body"><div class="studio">${esc(game.studio)}</div><div class="game-title">${esc(game.title)}</div><div class="release"><b>&gt;</b> ${esc(game.date)}</div><div class="badges"><span class="badge${unannounced}">${esc(game.status)}</span><span class="node">POZYCJA_${String(i+1).padStart(2,"0")}</span></div></div></article>`;
 }
 function section(block,index){
-  const games=[...block.games].sort((a,b)=>(b.sortDate||"").localeCompare(a.sortDate||""));
+  const games=[...block.games].sort((a,b)=>(a.sortDate||"").localeCompare(b.sortDate||""));
   return `<section class="window release-window" id="${esc(block.id)}"><div class="titlebar release-titlebar"><div class="title-left"><span class="app-icon">${String(index+1).padStart(2,"0")}</span><span>${esc(block.label)} // PREMIERY</span></div><div class="window-buttons"><button class="win-btn">_</button><button class="win-btn">□</button><button class="win-btn">×</button></div></div><div class="release-inner"><p class="section-note">&gt; ${esc(block.note)}</p><div class="rail">${games.map(card).join("")}</div></div></section>`;
 }
 document.getElementById("app").innerHTML=releaseSections.map(section).join("");
