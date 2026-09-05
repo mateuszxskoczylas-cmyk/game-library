@@ -39,11 +39,14 @@ body.desktop-mode .task-app{background:#d7d7de;border-top:2px solid #fff;border-
 if integration_css.strip() not in s:
     s = s.replace('@keyframes shake', integration_css + '\n@keyframes shake', 1)
 
+s = s.replace('.desktop.maxed{width:calc(100% - 4px);max-width:none;margin:2px auto 40px}', '.desktop.maxed{z-index:60;width:calc(100% - 4px);max-width:none;margin:2px auto 40px}', 1)
+
 old_icon = '''function desktopIconClick(icon,windowId){if(selectedDesktopIcon===icon){openDesktopWindow(windowId);return}clearDesktopSelection();selectedDesktopIcon=icon;icon.classList.add("selected")}'''
 new_icon = '''function desktopIconClick(icon,windowId){if(!document.body.classList.contains("desktop-mode"))return;if(selectedDesktopIcon===icon){openDesktopWindow(windowId);return}clearDesktopSelection();selectedDesktopIcon=icon;icon.classList.add("selected")}'''
-if old_icon not in s:
+if old_icon in s:
+    s = s.replace(old_icon, new_icon, 1)
+elif new_icon not in s:
     raise SystemExit('desktopIconClick pattern not found')
-s = s.replace(old_icon, new_icon, 1)
 
 old_main = '''function restoreMainWindow(){document.body.classList.remove("desktop-mode");$("page").classList.remove("minimized");$("startMenu").classList.remove("open");clearDesktopSelection();document.querySelectorAll(".desktop-app.open").forEach(w=>w.classList.remove("open"))}
 $("minBtn").onclick=()=>{const on=document.body.classList.toggle("desktop-mode");$("page").classList.toggle("minimized",on);$("startMenu").classList.remove("open");clearDesktopSelection();if(on)window.scrollTo({top:0,left:0,behavior:"auto"});else document.querySelectorAll(".desktop-app.open").forEach(w=>w.classList.remove("open"))};
@@ -52,8 +55,9 @@ new_main = '''function setMainMinimized(on){document.body.classList.toggle("desk
 function restoreMainWindow(){setMainMinimized(false)}
 $("minBtn").onclick=()=>setMainMinimized(true);
 $("taskMainApp").onclick=e=>{e.stopPropagation();setMainMinimized(!document.body.classList.contains("desktop-mode"))};'''
-if old_main not in s:
+if old_main in s:
+    s = s.replace(old_main, new_main, 1)
+elif new_main not in s:
     raise SystemExit('main window pattern not found')
-s = s.replace(old_main, new_main, 1)
 
 path.write_text(s, encoding='utf-8')
