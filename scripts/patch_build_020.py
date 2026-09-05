@@ -1,5 +1,6 @@
 from pathlib import Path
 
+# trigger BUILD_020
 path = Path('index.html')
 s = path.read_text(encoding='utf-8')
 
