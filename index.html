@@ -14,7 +14,7 @@ body.desktop-mode{overflow:hidden;min-height:100vh}.desktop-taskbar{display:none
 /* BUILD_026: zintegrowany pulpit + główne okno */
 body{padding-bottom:40px}
 .desktop{width:calc(100% - 154px);max-width:1540px;margin:20px 22px 54px 122px}
-.desktop.maxed{width:calc(100% - 4px);max-width:none;margin:2px auto 40px}
+.desktop.maxed{z-index:60;width:calc(100% - 4px);max-width:none;margin:2px auto 40px}
 .desktop-icons{display:grid;position:fixed;left:14px;top:28px;z-index:40;grid-template-columns:92px;gap:24px}
 body:not(.desktop-mode) .desktop-shortcut{pointer-events:none;opacity:.72;filter:saturate(.78)}
 body:not(.desktop-mode) .desktop-shortcut.selected{background:transparent}
