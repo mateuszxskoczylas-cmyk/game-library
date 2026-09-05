@@ -1,0 +1,23 @@
+name: Apply BUILD 022
+on:
+  push:
+    paths:
+      - '.github/workflows/patch-build-022.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply patch
+        run: python scripts/patch_build_022.py
+      - name: Commit BUILD 022
+        run: |
+          git config user.name "game-library-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet && exit 0
+          git commit -m "Add night mode and inert secret toolbar buttons"
+          git push
